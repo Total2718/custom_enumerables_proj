@@ -57,12 +57,24 @@ module Enumerable
         
     end
 
+    def my_any?
+        counter = 0
+        until counter >= self.length 
+         if yield(self[counter]) == true
+            return true
+         end
+         counter += 1
+        end
+        return false
+        
+    end
+
     
 end
 
 
 
-numbers = [54, 3, 4]
+numbers = [54, 2, 4]
 
 #my_each comparison
 numbers.my_each do |value|
@@ -108,7 +120,13 @@ test2 = numbers.all? { |number| number.even?}
 puts test2
 
 puts "\n\n\n"
+
+
+
+test1 = numbers.my_any? {|number| number.odd?}
+puts test1
+test2 = numbers.any? {|number| number.odd?}
+puts test2
+
+puts "\n\n\n"
 puts "------------LOOK HERE-----------------"
-
-
-
