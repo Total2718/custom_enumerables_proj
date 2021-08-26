@@ -68,13 +68,33 @@ module Enumerable
         return false
         
     end
+    
+    def my_none?
+        counter = 0
+        false_counter = 0
+        until counter >= self.length 
+         if yield(self[counter]) == false
+            false_counter += 1
+         end
+         counter += 1
+         if counter != false_counter
+            break
+         end
+        end
+        if counter != false_counter
+            return false
+        else 
+            return true
+        end
+
+    end
 
     
 end
 
 
 
-numbers = [54, 2, 4]
+numbers = [54, 3, 4]
 
 #my_each comparison
 numbers.my_each do |value|
@@ -130,3 +150,9 @@ puts test2
 
 puts "\n\n\n"
 puts "------------LOOK HERE-----------------"
+
+
+test1 = numbers.my_none? {|number| number.odd?}
+puts test1
+test2 = numbers.none? {|number| number.odd?}
+puts test2
