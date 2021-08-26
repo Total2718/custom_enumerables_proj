@@ -23,15 +23,46 @@ module Enumerable
             counter += 1
         end
     end
-end
 
-def space 
-    10.times do
-        puts "\n"
+    def my_select
+        new_array = []
+        counter = 0
+        until counter >= self.length
+            if yield(self[counter]) == true
+                new_array.append(self[counter])
+            end
+        
+            counter += 1
+        end
+        return new_array
     end
+
+    def my_all?
+        counter = 0
+        true_counter = 0
+        until counter >= self.length 
+         if yield(self[counter]) == true
+            true_counter += 1
+         end
+         counter += 1
+         if counter != true_counter
+            break
+         end
+        end
+        if counter != true_counter
+            return false
+        else 
+            return true
+        end
+        
+    end
+
+    
 end
 
-numbers = [54, 2, 3]
+
+
+numbers = [54, 3, 4]
 
 #my_each comparison
 numbers.my_each do |value|
@@ -58,7 +89,26 @@ numbers.each_with_index do |value, index|
     puts index
 end
 
+puts "\n\n\n"
 
+#my_select
+new_array = numbers.my_select {|value| value.even?}
+
+new_array2 = numbers.select {|value| value.even?}
+
+puts new_array
+puts new_array2
+
+puts "\n\n\n"
+
+#my_all enumerator
+test = numbers.my_all? {|number| number.even?}
+puts test
+test2 = numbers.all? { |number| number.even?}
+puts test2
+
+puts "\n\n\n"
+puts "------------LOOK HERE-----------------"
 
 
 
