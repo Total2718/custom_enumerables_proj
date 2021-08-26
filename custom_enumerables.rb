@@ -89,6 +89,36 @@ module Enumerable
 
     end
 
+    def my_count(value=nil)
+        counter = 0
+        true_counter = 0
+        
+        if block_given? 
+            until counter >= self.length
+                
+                if yield(self[counter]) == true
+                    true_counter += 1
+                    
+                end
+                counter += 1
+            end
+            return true_counter
+        elsif value != nil 
+            until counter >= self.length
+                if self[counter] == value
+                    true_counter += 1
+                end
+                return  true_counter
+            end
+        elsif value == nil
+            return self.length
+        
+            
+        end
+        
+        
+
+    end
     
 end
 
@@ -149,10 +179,18 @@ test2 = numbers.any? {|number| number.odd?}
 puts test2
 
 puts "\n\n\n"
-puts "------------LOOK HERE-----------------"
+
 
 
 test1 = numbers.my_none? {|number| number.odd?}
 puts test1
 test2 = numbers.none? {|number| number.odd?}
+puts test2
+
+puts "\n\n\n"
+puts "------------LOOK HERE-----------------"
+
+test1 =  numbers.my_count(54)
+puts test1
+test2 = numbers.count(54)
 puts test2
