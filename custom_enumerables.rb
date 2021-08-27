@@ -4,7 +4,7 @@
 module Enumerable
     
 
-    def my_each()
+    def my_each
         counter = 0
         until counter >= self.length 
          yield self[counter]
@@ -120,22 +120,62 @@ module Enumerable
 
     end
 
-    def my_map
+    def my_map(*the_proc)
         new_array = []
         counter = 0
-        until counter >= self.length
-            new_array.append(yield self[counter])
-        
-            counter += 1
+        if the_proc.empty?
+            until counter >= self.length
+                new_array.append(yield self[counter])
+            
+                counter += 1
+            end
+            return new_array
+        else
+            if the_proc[0].class == Proc
+                until counter >= self.length
+                    new_array.append(the_proc[0].call(self[counter]))
+                
+                    counter += 1
+                end
+                return new_array
+            else
+                puts "You must use provide a proc as an argument."
+            end
         end
-        return new_array
+        
     end
+
+    def my_inject(*initial)
+        counter = 0
+            if initial.empty? 
+                accum = self[0]
+                counter = 1
+                until counter >= self.length
+                    
+                    accum = yield(accum, self[counter])
+                    counter += 1
+                end
+                return accum
+            else
+                accum = initial[0]
+                until counter >= self.length
+                    
+                    accum = yield(accum, self[counter])
+                    counter += 1
+                end
+                return accum
+                
+            end
+    end
+
+   
+    
     
 end
 
 
 
-numbers = [54, 3, 4]
+numbers = [2, 3, 4]
 
 #my_each comparison
 numbers.my_each do |value|
@@ -207,9 +247,32 @@ test2 = numbers.count(54)
 puts test2
 
 puts "\n\n\n"
-puts "------------LOOK HERE-----------------"
+
 
 test1 =  numbers.my_map{|value| value + 2}
 puts test1
 test2 = numbers.map {|value| value + 2}
 puts test2
+
+puts "\n\n\n"
+
+
+
+
+puts numbers.inject(5) {|result, element| result - element}
+puts numbers.my_inject(5){|result, element| result - element}
+
+puts "\n\n\n"
+
+
+
+def multiply_els(array1)
+    array1.my_inject(){|result, element| result * element}
+end
+
+puts multiply_els(numbers) 
+
+puts "\n\n\n"
+puts "------------LOOK HERE-----------------"
+my_proc = Proc.new {|element| element * 2}
+puts numbers.my_map(){|element| element + 2}
