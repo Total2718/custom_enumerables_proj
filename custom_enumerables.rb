@@ -119,6 +119,17 @@ module Enumerable
         
 
     end
+
+    def my_map
+        new_array = []
+        counter = 0
+        until counter >= self.length
+            new_array.append(yield self[counter])
+        
+            counter += 1
+        end
+        return new_array
+    end
     
 end
 
@@ -188,9 +199,17 @@ test2 = numbers.none? {|number| number.odd?}
 puts test2
 
 puts "\n\n\n"
-puts "------------LOOK HERE-----------------"
+
 
 test1 =  numbers.my_count(54)
 puts test1
 test2 = numbers.count(54)
+puts test2
+
+puts "\n\n\n"
+puts "------------LOOK HERE-----------------"
+
+test1 =  numbers.my_map{|value| value + 2}
+puts test1
+test2 = numbers.map {|value| value + 2}
 puts test2
